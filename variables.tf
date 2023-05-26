@@ -4,7 +4,7 @@ variable "metastore_id" {
   default     = ""
 
   validation {
-    condition     = anytrue([length(var.metastore_id) == 36,  length(var.metastore_id) == 0])
+    condition     = anytrue([length(var.metastore_id) == 36, length(var.metastore_id) == 0])
     error_message = "UUID has to be either in nnnnnnnn-nnnn-nnnn-nnnn-nnnnnnnnnnnn format or empty string"
   }
 }
