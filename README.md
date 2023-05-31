@@ -6,6 +6,20 @@ This module provisions Azure Databricks Metastore Assignment.
 
 ```hcl
 # Prerequisite resources
+terraform {
+  required_providers {
+    databricks = {
+      source  = "databricks/databricks"
+      version = "=1.14.2"
+    }
+  }
+}
+
+provider "databricks" {
+  alias                       = "workspace"
+  host                        = data.databricks_workspace.example.workspace_url
+  azure_workspace_resource_id = data.databricks_workspace.example.id
+}
 
 # Databricks Workspace with Premium SKU
 data "azurerm_databricks_workspace" "example" {
@@ -13,29 +27,15 @@ data "azurerm_databricks_workspace" "example" {
   resource_group_name = "example-rg"
 }
 
-# Metastore 
-module "unity_catalog" {
-  source  = "data-platform-hq/unity-catalog/databricks"
-
-  project               = "datahq"
-  env                   = "example"
-  location              = "eastus"
-
-  providers = {
-    databricks = databricks.main
-  }
-}
-
-# Example usage of module for Databricks Metastore Assignment.
+# Assigning Unity Catalog Metastore to Workspace
 module "metastore_assignment" {
   source  = "data-platform-hq/metastore-assignment/databricks"
-  version = "1.0.0"
 
   workspace_id = data.databricks_workspace.workspace_id
-  metastore_id = module.unity_catalog.id
+  metastore_id = "<metastore-uuid>"
 
   providers = {
-    databricks = databricks.main
+    databricks = databricks.workspace
   }
 }
 ```
