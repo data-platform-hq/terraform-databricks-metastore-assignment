@@ -30,6 +30,7 @@ data "azurerm_databricks_workspace" "example" {
 # Assigning Unity Catalog Metastore to Workspace
 module "metastore_assignment" {
   source  = "data-platform-hq/metastore-assignment/databricks"
+  version = "~> 1.0"
 
   workspace_id = data.databricks_workspace.workspace_id
   metastore_id = "<metastore-uuid>"
