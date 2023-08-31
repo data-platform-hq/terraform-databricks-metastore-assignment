@@ -2,7 +2,9 @@
 Terraform module for creation Azure Databricks Metastore Assignment
 
 ## Usage
-This module provisions Azure Databricks Metastore Assignment.
+This module provisions Azure Databricks Metastore Assignment. Below are examples of Account-level and Workspace-level APIs configuration.
+
+#### Account-level API provider configuration example (recommended).
 
 ```hcl
 # Prerequisite resources
@@ -10,18 +12,21 @@ terraform {
   required_providers {
     databricks = {
       source  = "databricks/databricks"
-      version = "=1.14.2"
+      version = ">=1.24.1"
     }
   }
 }
 
+variable "databricks_account_id" {}
+variable "databricks_metastore_id" {}
+
 provider "databricks" {
-  alias                       = "workspace"
-  host                        = data.databricks_workspace.example.workspace_url
-  azure_workspace_resource_id = data.databricks_workspace.example.id
+  alias      = "account"
+  host       = "https://accounts.azuredatabricks.net"
+  account_id = var.databricks_account_id
 }
 
-# Databricks Workspace with Premium SKU
+# Target Databricks Workspace with Premium SKU
 data "azurerm_databricks_workspace" "example" {
   name                = "example-workspace"
   resource_group_name = "example-rg"
@@ -33,7 +38,49 @@ module "metastore_assignment" {
   version = "~> 1.0"
 
   workspace_id = data.databricks_workspace.workspace_id
-  metastore_id = "<metastore-uuid>"
+  metastore_id = var.databricks_metastore_id
+
+  providers = {
+    databricks = databricks.account
+  }
+}
+```
+
+<br>
+
+#### Workspace-level API provider configuration example.
+```hcl
+# Prerequisite resources
+terraform {
+  required_providers {
+    databricks = {
+      source  = "databricks/databricks"
+      version = "=1.14.2"
+    }
+  }
+}
+
+variable "databricks_metastore_id" {}
+
+provider "databricks" {
+  alias                       = "workspace"
+  host                        = data.databricks_workspace.example.workspace_url
+  azure_workspace_resource_id = data.databricks_workspace.example.id
+}
+
+# Target Databricks Workspace with Premium SKU
+data "azurerm_databricks_workspace" "example" {
+  name                = "example-workspace"
+  resource_group_name = "example-rg"
+}
+
+# Assigning Unity Catalog Metastore to Workspace
+module "metastore_assignment" {
+  source  = "data-platform-hq/metastore-assignment/databricks"
+  version = "~> 1.0"
+
+  workspace_id = data.databricks_workspace.workspace_id
+  metastore_id = var.databricks_metastore_id
 
   providers = {
     databricks = databricks.workspace
