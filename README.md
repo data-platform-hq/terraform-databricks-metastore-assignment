@@ -91,17 +91,16 @@ module "metastore_assignment" {
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-| Name                                                                      | Version   |
-| ------------------------------------------------------------------------- | --------- |
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0  |
-| <a name="requirement_databricks"></a> [databricks](#requirement\_databricks) | >= 1.14.2 |
-
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >=1.0.0 |
+| <a name="requirement_databricks"></a> [databricks](#requirement\_databricks) | >=1.14.2 |
 
 ## Providers
 
-| Name                                                          | Version |
-| ------------------------------------------------------------- | ------- |
-| <a name="provider_databricks"></a> [databricks](#provider\_databricks) | 1.14.2  |
+| Name | Version |
+|------|---------|
+| <a name="provider_databricks"></a> [databricks](#provider\_databricks) | >=1.14.2 |
 
 ## Modules
 
@@ -109,18 +108,20 @@ No modules.
 
 ## Resources
 
-| Name                                                                                                                              | Type     |
-| --------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| [databricks_metastore_assignment.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_endpoint) | resource |
-
+| Name | Type |
+|------|------|
+| [databricks_metastore_assignment.this](https://registry.terraform.io/providers/databricks/databricks/latest/docs/resources/metastore_assignment) | resource |
 
 ## Inputs
 
-| Name                                                                                                                                    | Description                                                                                                               | Type           | Default | Required |
-| --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | -------------- | ------- | :------: |
-| <a name="input_metastore_id"></a> [metastore\_id](#input\_metastore\_id)| Databricks Unity Catalog Metastore Id | `string` | " " |   no    |
-| <a name="input_workspace_id"></a> [workspace_id](#input\_workspace_id)| Databricks Workspace Id | `string` | " " |   no    |
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_metastore_id"></a> [metastore\_id](#input\_metastore\_id) | Databricks Unity Catalog Metastore Id | `string` | `""` | no |
+| <a name="input_workspace_id"></a> [workspace\_id](#input\_workspace\_id) | Databricks Workspace Id | `string` | `""` | no |
 
+## Outputs
+
+No outputs.
 <!-- END_TF_DOCS -->
 
 ## License
